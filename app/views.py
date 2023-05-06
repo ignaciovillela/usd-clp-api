@@ -14,9 +14,8 @@ def usd_to_clp(usd):
 
 def dollar(request, usd=1):
 	clp = usd_to_clp(usd)
-	data = {
-		'clp': ceil(clp),
-	}
-	if 'display' in request.GET:
-		data['display'] = '${:,.0f}'.format(clp)
+	ceil_clp = ceil(clp)
+	data = {'clp': ceil_clp}
+	if request.GET.get('display'):
+		data['display'] = f'$ {ceil_clp:,.2f}'.replace(',', ';').replace('.', ',').replace(';', '.')
 	return JsonResponse(data)
